@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
@@ -7,10 +7,26 @@ import Favourites from "./components/favourites";
 import NotFound from "./components/NotFound";
 
 const App = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const inputField = useRef(null);
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+
+    console.log(searchQuery);
+
+    inputField.current.blur();
+  };
+
   return (
     <>
-      <div className="app min-h-screen">
-        <Navbar />
+      <div className="app min-h-screen bg-rose-50 text-gray-600 text-lg">
+        <Navbar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          inputField={inputField}
+          searchHandler={searchHandler}
+        />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favourites" element={<Favourites />} />
