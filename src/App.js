@@ -5,16 +5,17 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Favourites from "./components/favourites";
 import NotFound from "./components/NotFound";
+import { useFetch } from "./hooks/useFetch";
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const inputField = useRef(null);
+  const { data: racipes, loading, error } = useFetch(searchQuery);
 
   const searchHandler = (e) => {
     e.preventDefault();
 
-    console.log(searchQuery);
-
+    setSearchQuery("");
     inputField.current.blur();
   };
 

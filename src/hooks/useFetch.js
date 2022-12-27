@@ -1,0 +1,30 @@
+import { useEffect, useState } from "react";
+
+export const useFetch = (searchQuery) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (searchQuery) {
+      const getData = async () => {
+        try {
+          setLoading(true);
+          const res = await fetch(
+            `https://forkify-api.herokuapp.com/api/search?q=${searchQuery}`
+          );
+          if (!res.ok) throw new Error("No recipe found!");
+          const data = await res.json();
+          setData(data.recipes);
+          setLoading(false);
+        } catch (err) {
+          setError(err.message);
+        }
+      };
+
+      getData();
+    }
+  }, []);
+
+  return { data, loading, error };
+};
